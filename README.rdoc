@@ -208,6 +208,14 @@ CSS:
   .css3 { font-size: 1.4em; }
   .css4 { font-size: 1.6em; }
 
+== Remove unused tags
+
+If you would like to remove unused tag objects after removing taggings, add 
+  
+  ActsAsTaggableOn::Tag.remove_unused = true                  
+  
+to initializer file.
+  
 == Contributors
 
 * TomEric (i76) - Maintainer
