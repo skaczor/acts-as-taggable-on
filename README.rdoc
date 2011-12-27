@@ -13,6 +13,13 @@ Enter Acts as Taggable On. Rather than tying functionality to a specific keyword
 tag "contexts" that can be used locally or in combination in the same way steroids
 was used.
 
+This fork fixes an issue when association joins are used in the scope preceding
+a call to all_tag_counts. This will be the case when searchlogic is used to
+limit the scope of the tags using a conditions such as:
+
+	Bar.foo_name_equals('foo1').all_tag_counts
+
+
 == Installation
 
 === Rails 2.3.x

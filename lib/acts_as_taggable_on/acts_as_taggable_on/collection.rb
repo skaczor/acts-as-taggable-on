@@ -86,7 +86,7 @@ module ActsAsTaggableOn::Taggable
 
         tagging_joins = [
           taggable_join,
-          scope[:joins]
+          dereference_joins(scope[:joins])
         ].compact
 
         tag_joins = [
@@ -128,6 +128,20 @@ module ActsAsTaggableOn::Taggable
         tag_scope = tag_scope.joins("JOIN (#{tagging_scope.to_sql}) AS taggings ON taggings.tag_id = tags.id")
         tag_scope
       end
+
+			private
+
+			def dereference_joins(joins)
+				case joins
+				when Array
+					joins.map{ |j| dereference_joins(j) }.compact.flatten
+				when Symbol, Hash
+					join_dependency = ActiveRecord::Associations::ClassMethods::InnerJoinDependency.new(self, joins, nil)
+					join_dependency.join_associations.map { |assoc| assoc.association_join }.join
+				when String
+					joins
+				end
+			end
     end
     
     module InstanceMethods
